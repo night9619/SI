@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[61]:
+# In[1]:
 
 
 from math import log2
@@ -13,20 +13,20 @@ with open('cw 1/pogoda.txt', 'r') as f:
 lista = [el.split(',') for el in element]
 
 
-# In[62]:
+# In[2]:
 
 
 lista
 
 
-# In[63]:
+# In[3]:
 
 
 liczbaAtrybutów = len(lista[0])-1
 liczbaAtrybutów
 
 
-# In[64]:
+# In[4]:
 
 
 #lista atrybutów (można ew jak wczytac z pliku)
@@ -34,14 +34,14 @@ labels = ["A"+str(nr+1) for nr in range(len(lista[0])-1)]
 labels
 
 
-# In[65]:
+# In[5]:
 
 
 liczbaWierszy = len(lista)
 liczbaWierszy
 
 
-# In[66]:
+# In[6]:
 
 
 #ostatnia kolumna - decyzje
@@ -49,20 +49,20 @@ decyzje = [wiersz[liczbaAtrybutów] for wiersz in lista]
 decyzje
 
 
-# In[67]:
+# In[7]:
 
 
 def decyzjeKolumna(dane):
     return [kol[-1] for kol in dane]
 
 
-# In[68]:
+# In[8]:
 
 
 decyzjeKolumna(lista)
 
 
-# In[69]:
+# In[9]:
 
 
 #dla każdej unikalnej wartosci w kolumnie zliczam wystąpienia
@@ -77,14 +77,14 @@ def licznikUnikalnychWartosci(nrKolumny,dane):
     return unikalne
 
 
-# In[70]:
+# In[10]:
 
 
 for nrK in range(liczbaAtrybutów):
     print(licznikUnikalnychWartosci(nrK,lista))
 
 
-# In[71]:
+# In[11]:
 
 
 #ile jest unikalnych wartosci w kolumnie
@@ -95,7 +95,7 @@ def ileWartWKolumnie(nrKolumny):
     return licznik
 
 
-# In[72]:
+# In[12]:
 
 
 for nrK in range(liczbaAtrybutów):
@@ -104,7 +104,7 @@ for nrK in range(liczbaAtrybutów):
     print(s1)
 
 
-# In[73]:
+# In[13]:
 
 
 #jakie sa unikalne wartosci w kolumnie
@@ -114,14 +114,14 @@ def unikalneWartosciWKolumnie(nrKolumny,dane):
     return list(unikalne)
 
 
-# In[74]:
+# In[14]:
 
 
 for nrK in range(liczbaAtrybutów):
     print(unikalneWartosciWKolumnie(nrK,lista))
 
 
-# In[75]:
+# In[15]:
 
 
 # tworzy słownik z unikalnymi wartosciami i padajacymi po nich decyzjami
@@ -134,20 +134,20 @@ def wartosciDecyzji(k):   # k to kolumna
     return dlaKolumny
 
 
-# In[76]:
+# In[16]:
 
 
 k = [wiersz[1] for wiersz in lista]
 k
 
 
-# In[77]:
+# In[17]:
 
 
 wartosciDecyzji(k)
 
 
-# In[78]:
+# In[18]:
 
 
 Info = {}
@@ -161,7 +161,7 @@ T= liczbaWierszy
 
 # Entropia
 
-# In[79]:
+# In[19]:
 
 
 #entropia
@@ -170,7 +170,7 @@ def I(P):
     return wynik
 
 
-# In[80]:
+# In[20]:
 
 
 podsumowanieDecyzji = licznikUnikalnychWartosci(liczbaAtrybutów,lista) # unikalne decyzje+licznik
@@ -179,7 +179,7 @@ zbior = [podsumowanieDecyzji[a]/len(decyzje) for a in podsumowanieDecyzji] #praw
 print(zbior)
 
 
-# In[81]:
+# In[21]:
 
 
 def Informacje(numer):
@@ -219,7 +219,7 @@ def Informacje(numer):
     GainRatio[numer] = gainRatio
 
 
-# In[82]:
+# In[22]:
 
 
 print("=====")
@@ -232,7 +232,7 @@ for nr in range(liczbaAtrybutów):
     Informacje(nr)
 
 
-# In[83]:
+# In[23]:
 
 
 print("\n")
@@ -251,15 +251,32 @@ for nr in range(liczbaAtrybutów):
     print(f"Split(D{str(nr+1)},T)= {Split[nr]}   \t Gain Ratio(D{str(nr+1)},T)= {GainRatio[nr]}")
 
 
-# In[96]:
+# In[37]:
 
-#tu sie zaczyna bałagan :(
+
+maxAtryb([0,1,2,3])
+
+
+# In[43]:
+
+
+listaNumerow = [nr for nr in range(len(lista[0])-1)]
+listaNumerow
+
+
+# In[38]:
+
+
 def maxAtryb(lista):
-    maxA=0
-    for a in lista:
-        if Gain[a]==max(Gain.values()):
-            maxA=a
+    #maxA=0
+    g = [Gain[a] for a in lista]
+    maxGain=max(g)
+
+    for ga in Gain:
+        if Gain[ga]==max(Gain.values()):
+            maxA=ga
     return maxA
+
         
 # def nowaLista(dane, nrWiersza):
 #     nowaLista(dane, atryb, w):
@@ -285,16 +302,17 @@ def class_counts(rows):
     return max(counts)
 
 
-# In[99]:
+# In[46]:
 
 
 import json
 drzewo = {}
-listaA = [nr for nr in range(len(lista[0])-1)]
+
 # atryb, dane
 def szukaj(atryb, dane):
     print("\nNajlepszy atrybut: ", labels[atryb])
     tab="\t"*atryb
+    
 #     k = [wiersz[atryb] for wiersz in dane] 
 #     #print(k)
 #     #drzewo[atryb] = wartosciDecyzji(k)
@@ -329,12 +347,14 @@ def szukaj(atryb, dane):
     drzewo = { atrybut: {} }
     print(drzewo) 
 
-    del(listaA[atryb])
+    del(listaNumerow[atryb])
   
     unik = unikalneWartosciWKolumnie(atryb,dane)
     
     for w in unik:
+        listaA=listaNumerow[:]
         noweA = maxAtryb(listaA)
+        print(nowaLista(dane, atryb, w))
         drzewo[atrybut][w] = szukaj(noweA, nowaLista(dane, atryb, w))
     #print(nowaLista(dane, atryb, w))
         
@@ -356,7 +376,7 @@ budujDrzewo()
 print(json.dumps(drzewo, indent=4, sort_keys=True))
 
 
-# In[90]:
+# In[ ]:
 
 
 Gain
